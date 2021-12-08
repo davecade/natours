@@ -62,11 +62,10 @@ app.post('/api/v1/tours', (req, res) => {
 });
 
 app.patch('/api/v1/tours/:id', (req, res) => {
-
   if (Number(req.params.id) > tours.length - 1) {
     return res.status(404).json({
       status: '404 Not FOund',
-      message: 'Invalid ID'
+      message: 'Invalid ID',
     });
   }
 
@@ -75,6 +74,20 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     data: {
       tour: 'updated tour here',
     },
+  });
+});
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+  if (Number(req.params.id) > tours.length - 1) {
+    return res.status(404).json({
+      status: '404 Not FOund',
+      message: 'Invalid ID',
+    });
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });
 
