@@ -21,7 +21,7 @@ app.get('/api/v1/tours', (req, res) => {
 });
 
 app.get('/api/v1/tours/:id', (req, res) => {
-  if (Number(req.params.id) > tours.length-1) {
+  if (Number(req.params.id) > tours.length - 1) {
     return res.status(404).json({
       status: '404 Not FOund',
     });
@@ -59,6 +59,23 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
+});
+
+app.patch('/api/v1/tours/:id', (req, res) => {
+
+  if (Number(req.params.id) > tours.length - 1) {
+    return res.status(404).json({
+      status: '404 Not FOund',
+      message: 'Invalid ID'
+    });
+  }
+
+  res.status(200).json({
+    status: 'sucess',
+    data: {
+      tour: 'updated tour here',
+    },
+  });
 });
 
 const port = 4000;
