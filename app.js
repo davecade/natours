@@ -9,8 +9,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-//-- sends back all the tours
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length,
@@ -18,9 +17,9 @@ app.get('/api/v1/tours', (req, res) => {
       tours: tours,
     },
   });
-});
+}
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
   if (Number(req.params.id) > tours.length - 1) {
     return res.status(404).json({
       status: '404 Not FOund',
@@ -36,9 +35,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
       },
     });
   }
-});
+}
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   console.log(req.body);
   const newTour = {
@@ -59,9 +58,9 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
+}
 
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
   if (Number(req.params.id) > tours.length - 1) {
     return res.status(404).json({
       status: '404 Not FOund',
@@ -75,9 +74,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
       tour: 'updated tour here',
     },
   });
-});
+}
 
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   if (Number(req.params.id) > tours.length - 1) {
     return res.status(404).json({
       status: '404 Not FOund',
@@ -89,7 +88,14 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: null,
   });
-});
+}
+
+//-- Routes
+app.get('/api/v1/tours', getAllTours);
+app.get('/api/v1/tours/:id', getTour);
+app.post('/api/v1/tours', createTour);
+app.patch('/api/v1/tours/:id', updateTour);
+app.delete('/api/v1/tours/:id', deleteTour);
 
 const port = 4000;
 app.listen(port, () => {
