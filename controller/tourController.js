@@ -4,6 +4,16 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+const checkID = (req, res, next, val) => {
+  if (Number(req.params.id) > tours.length - 1) {
+    return res.status(404).json({
+      status: '404 Not FOund',
+      message: 'Invalid ID',
+    });
+  }
+  next();
+};
+
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -16,12 +26,6 @@ const getAllTours = (req, res) => {
 };
 
 const getTour = (req, res) => {
-  if (Number(req.params.id) > tours.length - 1) {
-    return res.status(404).json({
-      status: '404 Not FOund',
-    });
-  }
-
   const tour = tours.find((item) => item.id === Number(req.params.id));
   if (tour) {
     res.status(200).json({
@@ -57,13 +61,6 @@ const createTour = (req, res) => {
 };
 
 const updateTour = (req, res) => {
-  if (Number(req.params.id) > tours.length - 1) {
-    return res.status(404).json({
-      status: '404 Not FOund',
-      message: 'Invalid ID',
-    });
-  }
-
   res.status(200).json({
     status: 'sucess',
     data: {
@@ -73,17 +70,17 @@ const updateTour = (req, res) => {
 };
 
 const deleteTour = (req, res) => {
-  if (Number(req.params.id) > tours.length - 1) {
-    return res.status(404).json({
-      status: '404 Not FOund',
-      message: 'Invalid ID',
-    });
-  }
-
   res.status(204).json({
     status: 'success',
     data: null,
   });
 };
 
-module.exports = { getAllTours, getTour, createTour, updateTour, deleteTour };
+module.exports = {
+  getAllTours,
+  getTour,
+  createTour,
+  updateTour,
+  deleteTour,
+  checkID,
+};
