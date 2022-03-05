@@ -1,8 +1,5 @@
 const fs = require('fs');
-
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
-);
+const Tour = require('./../models/tourModels');
 
 const checkID = (req, res, next, val) => {
   if (Number(req.params.id) > tours.length - 1) {
@@ -15,14 +12,14 @@ const checkID = (req, res, next, val) => {
 };
 
 const checkBody = (req, res, next) => {
-  if(!req.body.name || !req.body.price){
+  if (!req.body.name || !req.body.price) {
     return res.status(400).json({
       status: 'invalid',
       message: 'Request data is invalid. Does not contain name and price',
     });
   }
   next();
-}
+};
 
 const getAllTours = (req, res) => {
   res.status(200).json({
@@ -93,5 +90,5 @@ module.exports = {
   updateTour,
   deleteTour,
   checkID,
-  checkBody
+  checkBody,
 };
