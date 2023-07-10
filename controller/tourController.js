@@ -41,9 +41,7 @@ const getTour = async (req, res) => {
     if (tour) {
       res.status(200).json({
         status: 'success',
-        data: {
-          ...tour,
-        },
+        data: tour,
       });
     }
   } catch (e) {
